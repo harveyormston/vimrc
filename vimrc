@@ -111,6 +111,11 @@ if has("win32")
     set background=dark
     colorscheme monokai
 
+elseif os =~ "Darwin"
+    set directory=$HOME/.vim/swapfiles//
+    set background=dark
+	colorscheme monokai
+
 elseif os =~ "MSYS"
     colorscheme zellner
     set directory=$HOME/.vim/swapfiles//
