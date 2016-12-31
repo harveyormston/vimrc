@@ -115,6 +115,13 @@ elseif os =~ "Darwin"
     set directory=$HOME/.vim/swapfiles//
     set background=dark
 	colorscheme monokai
+	hi Normal ctermbg=NONE
+	hi nonText ctermbg=NONE
+    hi Search cterm=NONE ctermfg=black ctermbg=white
+    let &t_ti.="\e[1 q"
+    let &t_SI.="\e[5 q"
+    let &t_EI.="\e[1 q"
+    let &t_te.="\e[0 q"
 
 elseif os =~ "MSYS"
     colorscheme zellner
@@ -125,7 +132,8 @@ elseif os =~ "CYGWIN"
     set background=dark
     colorscheme monokai
     hi Normal ctermbg=none
-    hi Search cterm=NONE ctermfg=grey ctermbg=blue
+	hi nonText ctermbg=NONE
+    hi Search cterm=NONE ctermfg=black ctermbg=white
     let &t_ti.="\e[1 q"
     let &t_SI.="\e[5 q"
     let &t_EI.="\e[1 q"
@@ -136,7 +144,8 @@ elseif os =~ "Linux"
     set background=dark
     colorscheme monokai
     hi Normal ctermbg=none
-    hi Search cterm=NONE ctermfg=grey ctermbg=blue
+	hi nonText ctermbg=NONE
+    hi Search cterm=NONE ctermfg=black ctermbg=white
     let &t_ti.="\e[1 q"
     let &t_SI.="\e[5 q"
     let &t_EI.="\e[1 q"
