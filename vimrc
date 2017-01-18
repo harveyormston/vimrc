@@ -18,7 +18,7 @@ Plugin 'L9'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'ervandew/supertab'
-Plugin 'w0rp/ale'
+Plugin 'nvie/vim-flake8'
 Plugin 'sickill/vim-monokai'
 Plugin 'AndrewRadev/switch.vim'
 Plugin 'SirVer/ultisnips'
@@ -55,8 +55,14 @@ filetype off
 let g:UltiSnipsExpandTrigger="<leader>l"
 let g:switch_mapping = "+"
 let g:airline_theme='dark'
+let g:flake8_show_in_file=1
+let g:flake8_show_in_gutter=1
+autocmd BufWritePost *.py call Flake8()
 let g:startify_custom_header = ['']
 let g:vim_markdown_folding_disabled = 1
+" let g:ale_echo_msg_error_str = 'E'
+" let g:ale_echo_msg_warning_str = 'W'
+" let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " make YCM compatible with UltiSnips (using supertab)
 let g:SuperTabDefaultCompletionType = '<C-n>'
 " better key bindings for UltiSnipsExpandTrigger
