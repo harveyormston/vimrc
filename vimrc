@@ -36,6 +36,7 @@ Plugin 'lifepillar/vim-mucomplete'
 Plugin 'PeterRincker/vim-argumentative'
 Plugin 'severin-lemaignan/vim-minimap'
 Plugin 'junegunn/goyo.vim'
+Plugin 'junegunn/limelight.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'francoiscabrol/ranger.vim'
@@ -57,6 +58,12 @@ let g:switch_mapping = "+"
 let g:airline_theme='dark'
 let g:startify_custom_header = ['']
 let g:vim_markdown_folding_disabled = 1
+let g:limelight_conceal_ctermfg = 'gray'
+autocmd! User GoyoEnter Limelight
+autocmd! User GoyoLeave Limelight!
+" let g:ale_echo_msg_error_str = 'E'
+" let g:ale_echo_msg_warning_str = 'W'
+" let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 " make YCM compatible with UltiSnips (using supertab)
 let g:SuperTabDefaultCompletionType = '<C-n>'
 " better key bindings for UltiSnipsExpandTrigger
@@ -78,8 +85,8 @@ set softtabstop=0
 set noexpandtab
 set shiftwidth=4
 " Filetype-specific options:
-autocmd Filetype python setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab
-autocmd Filetype markdown setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab spell
+autocmd Filetype python setlocal ts=4 sts=4 sw=4 tw=119 cc=119 expandtab
+autocmd Filetype markdown setlocal ts=4 sts=4 sw=4 tw=119 cc=119 expandtab spell | Goyo 120
 autocmd Filetype make setlocal ts=4 sts=0 sw=4 noexpandtab
 
 " general ____________________________________________________________________
@@ -87,6 +94,7 @@ set nocompatible
 set backspace=indent,eol,start
 set autoindent
 set incsearch
+set ignorecase
 set smartcase
 set hlsearch
 set ruler
@@ -96,7 +104,7 @@ set relativenumber
 set showcmd
 set laststatus=2
 if has('mouse')
-  set mouse=a
+  set mouse=n
 endif
 if has('persistent_undo')
   set undofile
