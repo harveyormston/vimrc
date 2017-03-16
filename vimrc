@@ -41,6 +41,7 @@ Plugin 'plasticboy/vim-markdown'
 Plugin 'francoiscabrol/ranger.vim'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'mhinz/vim-startify'
+Plugin 'rust-lang/rust.vim'
 call vundle#end()
 filetype plugin indent on
 
