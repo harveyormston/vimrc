@@ -142,6 +142,7 @@ elseif os =~ "MSYS"
     set directory=$HOME/.vim/swapfiles//
 
 elseif os =~ "CYGWIN"
+	let g:ale_linters = {'python': ['flake8', 'mypy']}
     set directory=~/.vim/swapfiles//
     set background=dark
     colorscheme monokai
