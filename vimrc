@@ -17,12 +17,9 @@ Plugin 'tpope/vim-repeat'
 Plugin 'L9'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'davidhalter/jedi-vim'
-Plugin 'ervandew/supertab'
 Plugin 'w0rp/ale'
 Plugin 'sickill/vim-monokai'
 Plugin 'AndrewRadev/switch.vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
 Plugin 'fidian/hexmode'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -43,6 +40,7 @@ Plugin 'francoiscabrol/ranger.vim'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'mhinz/vim-startify'
 Plugin 'rust-lang/rust.vim'
+Plugin 'Valloric/ListToggle'
 call vundle#end()
 filetype plugin indent on
 
@@ -54,9 +52,9 @@ set nocompatible
 filetype off
 
 " plugin_config ______________________________________________________________
-let g:UltiSnipsExpandTrigger="<leader>l"
 let g:switch_mapping = "+"
-let g:airline_theme='dark'
+let g:airline_theme = 'dark'
+let g:airline_powerline_fonts = 1
 let g:startify_custom_header = ['']
 let g:vim_markdown_folding_disabled = 1
 let g:limelight_conceal_ctermfg = 'gray'
@@ -65,12 +63,10 @@ autocmd! User GoyoLeave Limelight!
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
 " make YCM compatible with UltiSnips (using supertab)
 let g:SuperTabDefaultCompletionType = '<C-n>'
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 let python_highlight_all = 1
 " mucomplete
 set noshowmode shortmess+=c
@@ -85,9 +81,10 @@ set tabstop=4
 set softtabstop=0
 set noexpandtab
 set shiftwidth=4
+set nowrap
 " Filetype-specific options:
 autocmd Filetype python setlocal ts=4 sts=4 sw=4 tw=119 cc=119 expandtab
-autocmd Filetype markdown setlocal ts=4 sts=4 sw=4 tw=119 cc=119 expandtab spell | Goyo 120
+autocmd Filetype markdown setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab spell | Goyo 120
 autocmd Filetype make setlocal ts=4 sts=0 sw=4 noexpandtab
 
 " general ____________________________________________________________________
@@ -104,6 +101,7 @@ set number
 set relativenumber
 set showcmd
 set laststatus=2
+set swapfile
 if has('mouse')
   set mouse=n
 endif
@@ -122,11 +120,13 @@ inoremap <esc> <nop>
 " os-specific ________________________________________________________________
 if has("win32")
     set directory=%HOME%/vimfiles/swapfiles//
+    set backupdir=%HOME%/vimfiles/swapfiles//
     set background=dark
     colorscheme monokai
 
 elseif os =~ "Darwin"
     set directory=$HOME/.vim/swapfiles//
+    set backupdir=$HOME/.vim/swapfiles//
     set background=dark
 	colorscheme monokai
 	hi Normal ctermbg=NONE
@@ -140,10 +140,13 @@ elseif os =~ "Darwin"
 elseif os =~ "MSYS"
     colorscheme zellner
     set directory=$HOME/.vim/swapfiles//
+    set backupdir=$HOME/.vim/swapfiles//
 
 elseif os =~ "CYGWIN"
+	command Open !cygstart %
 	let g:ale_linters = {'python': ['flake8', 'mypy']}
     set directory=~/.vim/swapfiles//
+    set backupdir=$HOME/.vim/swapfiles//
     set background=dark
     colorscheme monokai
     hi Normal ctermbg=none
@@ -156,6 +159,7 @@ elseif os =~ "CYGWIN"
 
 elseif os =~ "Linux"
     set directory=~/.vim/swapfiles//
+    set backupdir=$HOME/.vim/swapfiles//
     set background=dark
     colorscheme monokai
     hi Normal ctermbg=none
