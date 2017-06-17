@@ -83,7 +83,7 @@ set noexpandtab
 set shiftwidth=4
 set nowrap
 " Filetype-specific options:
-autocmd Filetype python setlocal ts=4 sts=4 sw=4 tw=119 cc=119 expandtab
+autocmd Filetype python setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab
 autocmd Filetype markdown setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab spell | Goyo 120
 autocmd Filetype make setlocal ts=4 sts=0 sw=4 noexpandtab
 
