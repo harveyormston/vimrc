@@ -31,16 +31,15 @@ Plugin 'will133/vim-dirdiff'
 Plugin 'hdima/python-syntax'
 Plugin 'lifepillar/vim-mucomplete'
 Plugin 'PeterRincker/vim-argumentative'
-Plugin 'severin-lemaignan/vim-minimap'
 Plugin 'junegunn/goyo.vim'
 Plugin 'junegunn/limelight.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'francoiscabrol/ranger.vim'
 Plugin 'jmcantrell/vim-virtualenv'
-Plugin 'mhinz/vim-startify'
 Plugin 'rust-lang/rust.vim'
 Plugin 'Valloric/ListToggle'
+Plugin 'mzlogin/vim-markdown-toc'
 call vundle#end()
 filetype plugin indent on
 
@@ -55,7 +54,6 @@ filetype off
 let g:switch_mapping = "+"
 let g:airline_theme = 'dark'
 let g:airline_powerline_fonts = 1
-let g:startify_custom_header = ['']
 let g:vim_markdown_folding_disabled = 1
 let g:limelight_conceal_ctermfg = 'gray'
 autocmd! User GoyoEnter Limelight
