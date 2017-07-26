@@ -34,7 +34,6 @@ Plugin 'Valloric/ListToggle'
 Plugin 'francoiscabrol/ranger.vim'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'mzlogin/vim-markdown-toc'
->>>>>>> master
 call vundle#end()
 filetype plugin indent on
 
