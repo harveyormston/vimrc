@@ -7,7 +7,6 @@ My .vimrc
         git submodule update
         ln -s ~/myvimrc/vimrc ~/.vimrc
         ln -s ~/myvimrc/vim ~/.vim
-        cd ~/.vim/bundle
         vim
         :PluginInstall
 Done!

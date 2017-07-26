@@ -2,11 +2,11 @@
 let os = substitute(system('uname'), "\n", "", "")
 
 if has("win32")
-    set rtp+=%HOME%/vimfiles/bundle/Vundle.vim/
-    call vundle#begin('%USERPROFILE%/vimfiles/bundle/')
+	set rtp+=%HOME%/vimfiles/bundle/Vundle.vim/
+	call vundle#begin('%USERPROFILE%/vimfiles/bundle/')
 else
-    set rtp+=~/.vim/bundle/Vundle.vim
-    call vundle#begin()
+	set rtp+=~/.vim/bundle/Vundle.vim
+	call vundle#begin()
 endif
 
 Plugin 'VundleVim/Vundle.vim'
@@ -26,19 +26,21 @@ Plugin 'yegappan/mru'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'will133/vim-dirdiff'
 Plugin 'hdima/python-syntax'
-Plugin 'junegunn/goyo.vim'
-Plugin 'junegunn/limelight.vim'
+Plugin 'lifepillar/vim-mucomplete'
+Plugin 'PeterRincker/vim-argumentative'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'rust-lang/rust.vim'
 Plugin 'Valloric/ListToggle'
-Plugin 'lifepillar/vim-mucomplete'
-Plugin 'PeterRincker/vim-argumentative'
+Plugin 'francoiscabrol/ranger.vim'
+Plugin 'jmcantrell/vim-virtualenv'
+Plugin 'mzlogin/vim-markdown-toc'
+>>>>>>> master
 call vundle#end()
 filetype plugin indent on
 
 " defaults ___________________________________________________________________
 if v:version >= 800
-    source $VIMRUNTIME/defaults.vim
+	source $VIMRUNTIME/defaults.vim
 endif
 set nocompatible
 filetype off
@@ -97,11 +99,11 @@ set showcmd
 set laststatus=2
 set swapfile
 if has('mouse')
-  set mouse=n
+	set mouse=n
 endif
 if has('persistent_undo')
-  set undofile
-  set undodir=$HOME/.vim/undo
+	set undofile
+	set undodir=$HOME/.vim/undo
 endif
 set tags=~/.tags;./.tags
 autocmd CursorHold * checktime
@@ -113,52 +115,55 @@ inoremap <esc> <nop>
 
 " os-specific ________________________________________________________________
 if has("win32")
-    set directory=%HOME%/vimfiles/swapfiles//
-    set backupdir=%HOME%/vimfiles/swapfiles//
-    set background=dark
+	set directory=%HOME%/vimfiles/swapfiles//
+	set backupdir=%HOME%/vimfiles/swapfiles//
+	set background=dark
+	colorscheme monokai
 
 elseif os =~ "Darwin"
-    set directory=$HOME/.vim/swapfiles//
-    set backupdir=$HOME/.vim/swapfiles//
-    set background=dark
+	set directory=$HOME/.vim/swapfiles//
+	set backupdir=$HOME/.vim/swapfiles//
+	set background=dark
+	colorscheme monokai
 	hi Normal ctermbg=NONE
 	hi nonText ctermbg=NONE
-    hi Search cterm=NONE ctermfg=black ctermbg=white
-    let &t_ti.="\e[1 q"
-    let &t_SI.="\e[5 q"
-    let &t_EI.="\e[1 q"
-    let &t_te.="\e[0 q"
+	hi Search cterm=NONE ctermfg=black ctermbg=white
+	let &t_ti.="\e[2 q"
+	let &t_SI.="\e[4 q"
+	let &t_EI.="\e[2 q"
+	let &t_te.="\e[4 q"
 
 elseif os =~ "MSYS"
-    set directory=$HOME/.vim/swapfiles//
-    set backupdir=$HOME/.vim/swapfiles//
+	colorscheme zellner
+	set directory=$HOME/.vim/swapfiles//
+	set backupdir=$HOME/.vim/swapfiles//
 
 elseif os =~ "CYGWIN"
-    if !exists(":Open")
-        command Open !cygstart %
-    endif
-    set directory=~/.vim/swapfiles//
-    set backupdir=$HOME/.vim/swapfiles//
-    set background=dark
-    hi Normal ctermbg=none
+	command Open !cygstart %
+	let g:ale_linters = {'python': ['flake8', 'mypy']}
+	set directory=$HOME/.vim/swapfiles//
+	set backupdir=$HOME/.vim/swapfiles//
+	set background=dark
+	colorscheme monokai
+	hi Normal ctermbg=none
 	hi nonText ctermbg=NONE
-    hi Search cterm=NONE ctermfg=black ctermbg=white
-    let &t_ti.="\e[1 q"
-    let &t_SI.="\e[5 q"
-    let &t_EI.="\e[1 q"
-    let &t_te.="\e[0 q"
-	let g:ale_python_pylint_executable = 'python /usr/bin/pylint'
+	hi Search cterm=NONE ctermfg=black ctermbg=white
+	let &t_ti.="\e[1 q"
+	let &t_SI.="\e[5 q"
+	let &t_EI.="\e[1 q"
+	let &t_te.="\e[0 q"
 
 elseif os =~ "Linux"
-    set directory=~/.vim/swapfiles//
-    set backupdir=$HOME/.vim/swapfiles//
-    set background=dark
-    hi Normal ctermbg=none
+	set directory=$HOME/.vim/swapfiles//
+	set backupdir=$HOME/.vim/swapfiles//
+	set background=dark
+	colorscheme monokai
+	hi Normal ctermbg=none
 	hi nonText ctermbg=NONE
-    hi Search cterm=NONE ctermfg=black ctermbg=white
-    let &t_ti.="\e[1 q"
-    let &t_SI.="\e[5 q"
-    let &t_EI.="\e[1 q"
+	hi Search cterm=NONE ctermfg=black ctermbg=white
+	let &t_ti.="\e[1 q"
+	let &t_SI.="\e[5 q"
+	let &t_EI.="\e[1 q"
     let &t_te.="\e[0 q"
 endif
 
