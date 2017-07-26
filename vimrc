@@ -13,9 +13,7 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-repeat'
-Plugin 'L9'
 Plugin 'ntpeters/vim-better-whitespace'
-Plugin 'davidhalter/jedi-vim'
 Plugin 'w0rp/ale'
 Plugin 'sickill/vim-monokai'
 Plugin 'AndrewRadev/switch.vim'
@@ -28,16 +26,13 @@ Plugin 'yegappan/mru'
 Plugin 'junegunn/vim-easy-align'
 Plugin 'will133/vim-dirdiff'
 Plugin 'hdima/python-syntax'
-Plugin 'PeterRincker/vim-argumentative'
 Plugin 'junegunn/goyo.vim'
 Plugin 'junegunn/limelight.vim'
 Plugin 'plasticboy/vim-markdown'
-Plugin 'mhinz/vim-startify'
-Plugin 'arcticicestudio/nord-vim'
-Plugin 'sickill/vim-monokai'
-=======
 Plugin 'rust-lang/rust.vim'
 Plugin 'Valloric/ListToggle'
+Plugin 'lifepillar/vim-mucomplete'
+Plugin 'PeterRincker/vim-argumentative'
 call vundle#end()
 filetype plugin indent on
 
@@ -52,26 +47,26 @@ filetype off
 let g:switch_mapping = "+"
 let g:airline_theme = 'dark'
 let g:airline_powerline_fonts = 1
-let g:startify_custom_header = ['']
 let g:vim_markdown_folding_disabled = 1
-let g:limelight_conceal_ctermfg = 'gray'
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 1
+let g:ale_python_pylint_use_global = 1
+let g:ale_python_flake8_use_global = 1
+let g:ale_python_mypy_use_global = 1
 " make YCM compatible with UltiSnips (using supertab)
-let g:SuperTabDefaultCompletionType = '<C-n>'
-let python_highlight_all = 1
+"let g:SuperTabDefaultCompletionType = '<C-n>'
+"let python_highlight_all = 1
 " mucomplete
-set noshowmode shortmess+=c
-setl infercase
-setl completeopt-=preview
-setl completeopt+=longest,menu,menuone
-let g:jedi#popup_on_dot = 0
-let g:jedi#show_call_signatures = 0
+"set noshowmode shortmess+=c
+"setl infercase
+"setl completeopt-=preview
+"setl completeopt+=longest,menu,menuone
+" jedi
+" let g:jedi#popup_on_dot = 0
+" let g:jedi#show_call_signatures = 0
 
 " whitespace _________________________________________________________________
 set tabstop=4
@@ -80,9 +75,11 @@ set noexpandtab
 set shiftwidth=4
 set nowrap
 " Filetype-specific options:
-autocmd Filetype python setlocal ts=4 sts=4 sw=4 tw=119 cc=119 expandtab
-autocmd Filetype markdown setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab spell | Goyo 120
+autocmd Filetype python setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab
+autocmd Filetype markdown setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab spell
 autocmd Filetype make setlocal ts=4 sts=0 sw=4 noexpandtab
+autocmd Filetype tex setlocal ts=2 sts=2 sw=2 tw=79 cc=79 expandtab spell
+autocmd Filetype plaintex setlocal ts=2 sts=2 sw=2 tw=79 cc=79 expandtab spell
 
 " general ____________________________________________________________________
 set nocompatible
@@ -119,13 +116,11 @@ if has("win32")
     set directory=%HOME%/vimfiles/swapfiles//
     set backupdir=%HOME%/vimfiles/swapfiles//
     set background=dark
-    colorscheme monokai
 
 elseif os =~ "Darwin"
     set directory=$HOME/.vim/swapfiles//
     set backupdir=$HOME/.vim/swapfiles//
     set background=dark
-	colorscheme monokai
 	hi Normal ctermbg=NONE
 	hi nonText ctermbg=NONE
     hi Search cterm=NONE ctermfg=black ctermbg=white
@@ -135,17 +130,16 @@ elseif os =~ "Darwin"
     let &t_te.="\e[0 q"
 
 elseif os =~ "MSYS"
-    colorscheme zellner
     set directory=$HOME/.vim/swapfiles//
     set backupdir=$HOME/.vim/swapfiles//
 
 elseif os =~ "CYGWIN"
-	command Open !cygstart %
-	let g:ale_linters = {'python': ['flake8', 'mypy']}
+    if !exists(":Open")
+        command Open !cygstart %
+    endif
     set directory=~/.vim/swapfiles//
     set backupdir=$HOME/.vim/swapfiles//
     set background=dark
-    colorscheme monokai
     hi Normal ctermbg=none
 	hi nonText ctermbg=NONE
     hi Search cterm=NONE ctermfg=black ctermbg=white
@@ -153,12 +147,12 @@ elseif os =~ "CYGWIN"
     let &t_SI.="\e[5 q"
     let &t_EI.="\e[1 q"
     let &t_te.="\e[0 q"
+	let g:ale_python_pylint_executable = 'python /usr/bin/pylint'
 
 elseif os =~ "Linux"
     set directory=~/.vim/swapfiles//
     set backupdir=$HOME/.vim/swapfiles//
     set background=dark
-    colorscheme monokai
     hi Normal ctermbg=none
 	hi nonText ctermbg=NONE
     hi Search cterm=NONE ctermfg=black ctermbg=white
@@ -167,3 +161,27 @@ elseif os =~ "Linux"
     let &t_EI.="\e[1 q"
     let &t_te.="\e[0 q"
 endif
+
+" colorscheme " ______________________________________________________________
+colorscheme monokai
+
+" save/load session __________________________________________________________
+fu! SaveSess()
+	if filereadable(getcwd() . '/.session.vim')
+		execute 'mksession! ' . getcwd() . '/.session.vim'
+	endif
+endfunction
+fu! RestoreSess()
+if filereadable(getcwd() . '/.session.vim')
+    execute 'so ' . getcwd() . '/.session.vim'
+    if bufexists(1)
+        for l in range(1, bufnr('$'))
+            if bufwinnr(l) == -1
+                exec 'sbuffer ' . l
+            endif
+        endfor
+    endif
+endif
+endfunction
+autocmd VimLeave * call SaveSess()
+autocmd VimEnter * nested call RestoreSess()
