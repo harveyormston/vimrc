@@ -139,6 +139,7 @@ elseif os =~ "MSYS"
 
 elseif os =~ "CYGWIN"
 	command Open !cygstart %
+	command Pylint 5new | 0read ! pylint #
 	let g:ale_linters = {'python': ['flake8', 'mypy']}
 	set directory=$HOME/.vim/swapfiles//
 	set backupdir=$HOME/.vim/swapfiles//
