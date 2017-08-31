@@ -10,15 +10,13 @@ else
 endif
 
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-repeat'
-Plugin 'L9'
 Plugin 'ntpeters/vim-better-whitespace'
-Plugin 'davidhalter/jedi-vim'
 Plugin 'w0rp/ale'
 Plugin 'sickill/vim-monokai'
+Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'AndrewRadev/switch.vim'
 Plugin 'fidian/hexmode'
 Plugin 'vim-airline/vim-airline'
@@ -31,16 +29,14 @@ Plugin 'will133/vim-dirdiff'
 Plugin 'hdima/python-syntax'
 Plugin 'lifepillar/vim-mucomplete'
 Plugin 'PeterRincker/vim-argumentative'
-Plugin 'junegunn/goyo.vim'
-Plugin 'junegunn/limelight.vim'
-Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
-Plugin 'francoiscabrol/ranger.vim'
-Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'rust-lang/rust.vim'
 Plugin 'Valloric/ListToggle'
+Plugin 'francoiscabrol/ranger.vim'
+Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'mzlogin/vim-markdown-toc'
 Plugin 'chrisbra/csv.vim'
+Plugin 'sotte/presenting.vim'
 call vundle#end()
 filetype plugin indent on
 
@@ -56,24 +52,15 @@ let g:switch_mapping = "+"
 let g:airline_theme = 'dark'
 let g:airline_powerline_fonts = 1
 let g:vim_markdown_folding_disabled = 1
-let g:limelight_conceal_ctermfg = 'gray'
-autocmd! User GoyoEnter Limelight
-autocmd! User GoyoLeave Limelight!
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
 let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 1
-" make YCM compatible with UltiSnips (using supertab)
-let g:SuperTabDefaultCompletionType = '<C-n>'
-let python_highlight_all = 1
-" mucomplete
-set noshowmode shortmess+=c
-setl infercase
-setl completeopt-=preview
-setl completeopt+=longest,menu,menuone
-let g:jedi#popup_on_dot = 0
-let g:jedi#show_call_signatures = 0
+let g:ale_python_pylint_use_global = 1
+let g:ale_python_flake8_use_global = 1
+let g:ale_python_mypy_use_global = 1
+let g:presenting_top_margin = 2
 
 " whitespace _________________________________________________________________
 set tabstop=4
@@ -82,9 +69,16 @@ set noexpandtab
 set shiftwidth=4
 set nowrap
 " Filetype-specific options:
+"" python
 autocmd Filetype python setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab
-autocmd Filetype markdown setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab spell | Goyo 120
+autocmd Filetype python set makeprg=pylint\ --reports=n\ --output-format=parseable\ %
+autocmd Filetype python set errorformat=%f:%l:\ %m
+autocmd Filetype python autocmd QuickFixCmdPost [^l]* nested cwindow
+"" other
+autocmd Filetype markdown setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab spell
 autocmd Filetype make setlocal ts=4 sts=0 sw=4 noexpandtab
+autocmd Filetype tex setlocal ts=2 sts=2 sw=2 tw=79 cc=79 expandtab spell
+autocmd Filetype plaintex setlocal ts=2 sts=2 sw=2 tw=79 cc=79 expandtab spell
 
 " general ____________________________________________________________________
 set nocompatible
@@ -143,13 +137,13 @@ elseif os =~ "MSYS"
 
 elseif os =~ "CYGWIN"
 	command Open !cygstart %
-	let g:ale_linters = {'python': ['flake8', 'mypy']}
+	let g:ale_linters = {'python': ['pylint', 'flake8', 'mypy']}
 	set directory=$HOME/.vim/swapfiles//
 	set backupdir=$HOME/.vim/swapfiles//
 	set background=dark
 	colorscheme monokai
 	hi Normal ctermbg=none
-	hi nonText ctermbg=NONE
+	hi nonText ctermbg=none
 	hi Search cterm=NONE ctermfg=black ctermbg=white
 	let &t_ti.="\e[1 q"
 	let &t_SI.="\e[5 q"
@@ -169,3 +163,37 @@ elseif os =~ "Linux"
 	let &t_EI.="\e[1 q"
     let &t_te.="\e[0 q"
 endif
+
+" save/load session __________________________________________________________
+fu! SaveSess()
+	if filereadable(getcwd() . '/.session.vim')
+		execute 'mksession! ' . getcwd() . '/.session.vim'
+	endif
+endfunction
+fu! RestoreSess()
+if filereadable(getcwd() . '/.session.vim')
+    execute 'so ' . getcwd() . '/.session.vim'
+    if bufexists(1)
+        for l in range(1, bufnr('$'))
+            if bufwinnr(l) == -1
+                exec 'sbuffer ' . l
+            endif
+        endfor
+    endif
+endif
+endfunction
+autocmd VimLeave * call SaveSess()
+autocmd VimEnter * nested call RestoreSess()
+
+fu! Present()
+	set background=light
+	colorscheme papercolor
+	PresentingStart
+	set cc=0
+	set nospell
+endfunction
+
+fu! EndPresent()
+	set background=dark
+	colorscheme monokai
+endfunction
