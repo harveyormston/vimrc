@@ -16,6 +16,7 @@ Plugin 'tpope/vim-repeat'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'w0rp/ale'
 Plugin 'sickill/vim-monokai'
+Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'AndrewRadev/switch.vim'
 Plugin 'fidian/hexmode'
 Plugin 'vim-airline/vim-airline'
@@ -34,6 +35,7 @@ Plugin 'Valloric/ListToggle'
 Plugin 'francoiscabrol/ranger.vim'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'mzlogin/vim-markdown-toc'
+Plugin 'sotte/presenting.vim'
 call vundle#end()
 filetype plugin indent on
 
@@ -57,17 +59,7 @@ let g:ale_set_quickfix = 1
 let g:ale_python_pylint_use_global = 1
 let g:ale_python_flake8_use_global = 1
 let g:ale_python_mypy_use_global = 1
-" make YCM compatible with UltiSnips (using supertab)
-"let g:SuperTabDefaultCompletionType = '<C-n>'
-"let python_highlight_all = 1
-" mucomplete
-"set noshowmode shortmess+=c
-"setl infercase
-"setl completeopt-=preview
-"setl completeopt+=longest,menu,menuone
-" jedi
-" let g:jedi#popup_on_dot = 0
-" let g:jedi#show_call_signatures = 0
+let g:presenting_top_margin = 2
 
 " whitespace _________________________________________________________________
 set tabstop=4
@@ -76,7 +68,12 @@ set noexpandtab
 set shiftwidth=4
 set nowrap
 " Filetype-specific options:
+"" python
 autocmd Filetype python setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab
+autocmd Filetype python set makeprg=pylint\ --reports=n\ --output-format=parseable\ %
+autocmd Filetype python set errorformat=%f:%l:\ %m
+autocmd Filetype python autocmd QuickFixCmdPost [^l]* nested cwindow
+"" other
 autocmd Filetype markdown setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab spell
 autocmd Filetype make setlocal ts=4 sts=0 sw=4 noexpandtab
 autocmd Filetype tex setlocal ts=2 sts=2 sw=2 tw=79 cc=79 expandtab spell
@@ -139,14 +136,13 @@ elseif os =~ "MSYS"
 
 elseif os =~ "CYGWIN"
 	command Open !cygstart %
-	command Pylint 5new | 0read ! pylint #
-	let g:ale_linters = {'python': ['flake8', 'mypy']}
+	let g:ale_linters = {'python': ['pylint', 'flake8', 'mypy']}
 	set directory=$HOME/.vim/swapfiles//
 	set backupdir=$HOME/.vim/swapfiles//
 	set background=dark
 	colorscheme monokai
 	hi Normal ctermbg=none
-	hi nonText ctermbg=NONE
+	hi nonText ctermbg=none
 	hi Search cterm=NONE ctermfg=black ctermbg=white
 	let &t_ti.="\e[1 q"
 	let &t_SI.="\e[5 q"
@@ -166,9 +162,6 @@ elseif os =~ "Linux"
 	let &t_EI.="\e[1 q"
     let &t_te.="\e[0 q"
 endif
-
-" colorscheme " ______________________________________________________________
-colorscheme monokai
 
 " save/load session __________________________________________________________
 fu! SaveSess()
@@ -190,3 +183,16 @@ endif
 endfunction
 autocmd VimLeave * call SaveSess()
 autocmd VimEnter * nested call RestoreSess()
+
+fu! Present()
+	set background=light
+	colorscheme papercolor
+	PresentingStart
+	set cc=0
+	set nospell
+endfunction
+
+fu! EndPresent()
+	set background=dark
+	colorscheme monokai
+endfunction
