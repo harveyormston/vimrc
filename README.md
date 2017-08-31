@@ -3,6 +3,7 @@ My .vimrc
 
         mkdir ~/myvimrc
         git clone https://github.com/harveyormston/vimrc ~/myvimrc
+        cd ~/myvimrc
         git submodule init
         git submodule update
         ln -s ~/myvimrc/vimrc ~/.vimrc
