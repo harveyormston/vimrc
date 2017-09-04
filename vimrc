@@ -40,6 +40,7 @@ Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'rust-lang/rust.vim'
 Plugin 'Valloric/ListToggle'
 Plugin 'mzlogin/vim-markdown-toc'
+Plugin 'samsaga2/vim-z80'
 call vundle#end()
 filetype plugin indent on
 
