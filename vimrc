@@ -35,6 +35,7 @@ Plugin 'Valloric/ListToggle'
 Plugin 'francoiscabrol/ranger.vim'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'mzlogin/vim-markdown-toc'
+Plugin 'samsaga2/vim-z80'
 Plugin 'chrisbra/csv.vim'
 Plugin 'sotte/presenting.vim'
 call vundle#end()
@@ -76,6 +77,7 @@ autocmd Filetype python set errorformat=%f:%l:\ %m
 autocmd Filetype python autocmd QuickFixCmdPost [^l]* nested cwindow
 "" other
 autocmd Filetype markdown setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab spell
+autocmd Filetype markdown set makeprg=grip\ %\ --export\ %:r.html\ &&\ open\ %:r.html
 autocmd Filetype make setlocal ts=4 sts=0 sw=4 noexpandtab
 autocmd Filetype tex setlocal ts=2 sts=2 sw=2 tw=79 cc=79 expandtab spell
 autocmd Filetype plaintex setlocal ts=2 sts=2 sw=2 tw=79 cc=79 expandtab spell
@@ -95,6 +97,7 @@ set relativenumber
 set showcmd
 set laststatus=2
 set swapfile
+set shellcmdflag=-ic
 if has('mouse')
 	set mouse=n
 endif
