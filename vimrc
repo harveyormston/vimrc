@@ -133,10 +133,19 @@ else
 	hi Normal ctermbg=none
 	hi nonText ctermbg=NONE
 	hi Search cterm=NONE ctermfg=black ctermbg=white
-	let &t_ti.="\e[2 q"
-	let &t_SI.="\e[4 q"
-	let &t_EI.="\e[2 q"
-    let &t_te.="\e[4 q"
+
+	if &term =~ "screen"
+		let &t_ti.="\eP\e[2 q\e\\"
+	    let &t_SI.="\eP\e[4 q\e\\"
+		let &t_EI.="\eP\e[2 q\e\\"
+		let &t_te.="\eP\e[4 q\e\\"
+	else
+		let &t_ti.="\e[2 q"
+		let &t_SI.="\e[4 q"
+		let &t_EI.="\e[2 q"
+		let &t_te.="\e[4 q"
+	endif
+
 endif
 
 " save/load session __________________________________________________________
