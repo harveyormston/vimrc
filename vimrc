@@ -35,6 +35,7 @@ Plugin 'Valloric/ListToggle'
 Plugin 'francoiscabrol/ranger.vim'
 Plugin 'jmcantrell/vim-virtualenv'
 Plugin 'mzlogin/vim-markdown-toc'
+Plugin 'samsaga2/vim-z80'
 Plugin 'chrisbra/csv.vim'
 Plugin 'sotte/presenting.vim'
 call vundle#end()
