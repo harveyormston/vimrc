@@ -117,40 +117,12 @@ if has("win32")
 	set background=dark
 	colorscheme monokai
 
-elseif os =~ "Darwin"
-	set directory=$HOME/.vim/swapfiles//
-	set backupdir=$HOME/.vim/swapfiles//
-	set background=dark
-	colorscheme monokai
-	hi Normal ctermbg=NONE
-	hi nonText ctermbg=NONE
-	hi Search cterm=NONE ctermfg=black ctermbg=white
-	let &t_ti.="\e[2 q"
-	let &t_SI.="\e[4 q"
-	let &t_EI.="\e[2 q"
-	let &t_te.="\e[4 q"
-
 elseif os =~ "MSYS"
 	colorscheme zellner
 	set directory=$HOME/.vim/swapfiles//
 	set backupdir=$HOME/.vim/swapfiles//
 
-elseif os =~ "CYGWIN"
-	command Open !cygstart %
-	let g:ale_linters = {'python': ['pylint', 'flake8', 'mypy']}
-	set directory=$HOME/.vim/swapfiles//
-	set backupdir=$HOME/.vim/swapfiles//
-	set background=dark
-	colorscheme monokai
-	hi Normal ctermbg=none
-	hi nonText ctermbg=none
-	hi Search cterm=NONE ctermfg=black ctermbg=white
-	let &t_ti.="\e[1 q"
-	let &t_SI.="\e[5 q"
-	let &t_EI.="\e[1 q"
-	let &t_te.="\e[0 q"
-
-elseif os =~ "Linux"
+else
 	set directory=$HOME/.vim/swapfiles//
 	set backupdir=$HOME/.vim/swapfiles//
 	set background=dark
@@ -158,10 +130,19 @@ elseif os =~ "Linux"
 	hi Normal ctermbg=none
 	hi nonText ctermbg=NONE
 	hi Search cterm=NONE ctermfg=black ctermbg=white
-	let &t_ti.="\e[1 q"
-	let &t_SI.="\e[5 q"
-	let &t_EI.="\e[1 q"
-    let &t_te.="\e[0 q"
+
+	if &term =~ "screen"
+		let &t_ti.="\eP\e[2 q\e\\"
+	    let &t_SI.="\eP\e[4 q\e\\"
+		let &t_EI.="\eP\e[2 q\e\\"
+		let &t_te.="\eP\e[4 q\e\\"
+	else
+		let &t_ti.="\e[2 q"
+		let &t_SI.="\e[4 q"
+		let &t_EI.="\e[2 q"
+		let &t_te.="\e[4 q"
+	endif
+
 endif
 
 " save/load session __________________________________________________________
