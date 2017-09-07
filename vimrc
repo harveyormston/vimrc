@@ -181,3 +181,6 @@ fu! EndPresent()
 	set background=dark
 	colorscheme monokai
 endfunction
+
+" load local .vimrc
+set exrc
