@@ -1,4 +1,5 @@
 " vundle _____________________________________________________________________
+
 let os = substitute(system('uname'), "\n", "", "")
 
 if has("win32")
@@ -42,6 +43,7 @@ call vundle#end()
 filetype plugin indent on
 
 " defaults ___________________________________________________________________
+
 if v:version >= 800
 	source $VIMRUNTIME/defaults.vim
 endif
@@ -49,6 +51,7 @@ set nocompatible
 filetype off
 
 " plugin_config ______________________________________________________________
+
 let g:switch_mapping = "+"
 let g:airline_theme = 'dark'
 let g:airline_powerline_fonts = 1
@@ -64,18 +67,24 @@ let g:ale_python_mypy_use_global = 0
 let g:presenting_top_margin = 2
 
 " whitespace _________________________________________________________________
+
 set tabstop=4
-set softtabstop=0
-set noexpandtab
+set softtabstop=4
 set shiftwidth=4
+set expandtab
 set nowrap
-" Filetype-specific options:
+
+" filetype-specific _________________________________________________________
+
 "" python
+
 autocmd Filetype python setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab
 autocmd Filetype python set makeprg=pylint\ --reports=n\ --output-format=parseable\ %
 autocmd Filetype python set errorformat=%f:%l:\ %m
 autocmd Filetype python autocmd QuickFixCmdPost [^l]* nested cwindow
+
 "" other
+
 autocmd Filetype markdown setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab spell
 autocmd Filetype markdown set makeprg=grip\ %\ --export\ %:r.html\ &&\ open\ %:r.html
 autocmd Filetype make setlocal ts=4 sts=0 sw=4 noexpandtab
@@ -83,13 +92,17 @@ autocmd Filetype tex setlocal ts=2 sts=2 sw=2 tw=79 cc=79 expandtab spell
 autocmd Filetype plaintex setlocal ts=2 sts=2 sw=2 tw=79 cc=79 expandtab spell
 
 " general ____________________________________________________________________
+
 set nocompatible
+set autoread
+set wildmenu
 set backspace=indent,eol,start
 set autoindent
 set incsearch
 set ignorecase
 set smartcase
 set hlsearch
+set lazyredraw
 set ruler
 syntax on
 set number
@@ -97,38 +110,38 @@ set relativenumber
 set showcmd
 set laststatus=2
 set swapfile
+
 if has('mouse')
 	set mouse=n
 endif
+
 if has('persistent_undo')
 	set undofile
 	set undodir=$HOME/.vim/undo
 endif
+
 set tags=~/.tags;./.tags
 autocmd CursorHold * checktime
 
+" colorscheme " ______________________________________________________________
+
+set background=dark
+colorscheme monokai
+
 " keymap _____________________________________________________________________
+
 let mapleader=","
 inoremap jk <esc>
 inoremap <esc> <nop>
 
 " os-specific ________________________________________________________________
+
 if has("win32")
 	set directory=%HOME%/vimfiles/swapfiles//
 	set backupdir=%HOME%/vimfiles/swapfiles//
-	set background=dark
-	colorscheme monokai
-
-elseif os =~ "MSYS"
-	colorscheme zellner
-	set directory=$HOME/.vim/swapfiles//
-	set backupdir=$HOME/.vim/swapfiles//
-
 else
 	set directory=$HOME/.vim/swapfiles//
 	set backupdir=$HOME/.vim/swapfiles//
-	set background=dark
-	colorscheme monokai
 	hi Normal ctermbg=none
 	hi nonText ctermbg=NONE
 	hi Search cterm=NONE ctermfg=black ctermbg=white
@@ -148,11 +161,13 @@ else
 endif
 
 " save/load session __________________________________________________________
+
 fu! SaveSess()
 	if filereadable(getcwd() . '/.session.vim')
 		execute 'mksession! ' . getcwd() . '/.session.vim'
 	endif
 endfunction
+
 fu! RestoreSess()
 if filereadable(getcwd() . '/.session.vim')
     execute 'so ' . getcwd() . '/.session.vim'
@@ -165,9 +180,11 @@ if filereadable(getcwd() . '/.session.vim')
     endif
 endif
 endfunction
+
 autocmd VimLeave * call SaveSess()
 autocmd VimEnter * nested call RestoreSess()
 
+" set style for presenting ___________________________________________________
 fu! Present()
 	set background=light
 	colorscheme papercolor
@@ -181,5 +198,6 @@ fu! EndPresent()
 	colorscheme monokai
 endfunction
 
-" load local .vimrc
-set exrc
+" end " ______________________________________________________________________
+
+set exrc " load local .vimrc
