@@ -55,7 +55,7 @@ filetype off
 " plugin_config ______________________________________________________________
 
 let g:switch_mapping = "+"
-let g:airline_theme = 'monokai_subtle'
+let g:airline_theme = 'zenburn'
 let g:airline_powerline_fonts = 0
 let g:airline_section_x = ''
 let g:airline_section_y = ''
@@ -205,7 +205,7 @@ endfunction
 fu! EndPresent()
     set background=dark
     colorscheme monokai
-    let g:airline_theme = 'monokai_subtle'
+    let g:airline_theme = 'zenburn'
 endfunction
 
 " end " ______________________________________________________________________
