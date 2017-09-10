@@ -3,20 +3,22 @@
 let os = substitute(system('uname'), "\n", "", "")
 
 if has("win32")
-	set rtp+=%HOME%/vimfiles/bundle/Vundle.vim/
-	call vundle#begin('%USERPROFILE%/vimfiles/bundle/')
+    set rtp+=%HOME%/vimfiles/bundle/Vundle.vim/
+    call vundle#begin('%USERPROFILE%/vimfiles/bundle/')
 else
-	set rtp+=~/.vim/bundle/Vundle.vim
-	call vundle#begin()
+    set rtp+=~/.vim/bundle/Vundle.vim
+    call vundle#begin()
 endif
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-fugitive'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'w0rp/ale'
 Plugin 'sickill/vim-monokai'
+Plugin 'Yavor-Ivanov/airline-monokai-subtle.vim'
 Plugin 'NLKNguyen/papercolor-theme'
 Plugin 'AndrewRadev/switch.vim'
 Plugin 'fidian/hexmode'
@@ -45,7 +47,7 @@ filetype plugin indent on
 " defaults ___________________________________________________________________
 
 if v:version >= 800
-	source $VIMRUNTIME/defaults.vim
+    source $VIMRUNTIME/defaults.vim
 endif
 set nocompatible
 filetype off
@@ -53,8 +55,14 @@ filetype off
 " plugin_config ______________________________________________________________
 
 let g:switch_mapping = "+"
-let g:airline_theme = 'dark'
-let g:airline_powerline_fonts = 1
+let g:airline_theme = 'monokai_subtle'
+let g:airline_powerline_fonts = 0
+let g:airline_section_x = ''
+let g:airline_section_y = ''
+let g:airline_mode_map = {
+    \'__' : '-', 'n'  : 'N', 'i'  : 'I', 'R'  : 'R',
+    \'c'  : 'C', 'v'  : 'V', 'V'  : 'V', '^V' : 'V',
+    \ 's'  : 'S', 'S'  : 'S', '^S' : 'S',}
 let g:vim_markdown_folding_disabled = 1
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
@@ -112,12 +120,12 @@ set laststatus=2
 set swapfile
 
 if has('mouse')
-	set mouse=n
+    set mouse=n
 endif
 
 if has('persistent_undo')
-	set undofile
-	set undodir=$HOME/.vim/undo
+    set undofile
+    set undodir=$HOME/.vim/undo
 endif
 
 set tags=~/.tags;./.tags
@@ -137,35 +145,35 @@ inoremap <esc> <nop>
 " os-specific ________________________________________________________________
 
 if has("win32")
-	set directory=%HOME%/vimfiles/swapfiles//
-	set backupdir=%HOME%/vimfiles/swapfiles//
+    set directory=%HOME%/vimfiles/swapfiles//
+    set backupdir=%HOME%/vimfiles/swapfiles//
 else
-	set directory=$HOME/.vim/swapfiles//
-	set backupdir=$HOME/.vim/swapfiles//
-	hi Normal ctermbg=none
-	hi nonText ctermbg=NONE
-	hi Search cterm=NONE ctermfg=black ctermbg=white
+    set directory=$HOME/.vim/swapfiles//
+    set backupdir=$HOME/.vim/swapfiles//
+    hi Normal ctermbg=none
+    hi nonText ctermbg=NONE
+    hi Search cterm=NONE ctermfg=black ctermbg=white
 
-	if &term =~ "screen"
-		let &t_ti.="\eP\e[2 q\e\\"
-	    let &t_SI.="\eP\e[4 q\e\\"
-		let &t_EI.="\eP\e[2 q\e\\"
-		let &t_te.="\eP\e[4 q\e\\"
-	else
-		let &t_ti.="\e[2 q"
-		let &t_SI.="\e[4 q"
-		let &t_EI.="\e[2 q"
-		let &t_te.="\e[4 q"
-	endif
+    if &term =~ "screen"
+        let &t_ti.="\eP\e[2 q\e\\"
+        let &t_SI.="\eP\e[4 q\e\\"
+        let &t_EI.="\eP\e[2 q\e\\"
+        let &t_te.="\eP\e[4 q\e\\"
+    else
+        let &t_ti.="\e[2 q"
+        let &t_SI.="\e[4 q"
+        let &t_EI.="\e[2 q"
+        let &t_te.="\e[4 q"
+    endif
 
 endif
 
 " save/load session __________________________________________________________
 
 fu! SaveSess()
-	if filereadable(getcwd() . '/.session.vim')
-		execute 'mksession! ' . getcwd() . '/.session.vim'
-	endif
+    if filereadable(getcwd() . '/.session.vim')
+        execute 'mksession! ' . getcwd() . '/.session.vim'
+    endif
 endfunction
 
 fu! RestoreSess()
@@ -186,16 +194,18 @@ autocmd VimEnter * nested call RestoreSess()
 
 " set style for presenting ___________________________________________________
 fu! Present()
-	set background=light
-	colorscheme papercolor
-	PresentingStart
-	set cc=0
-	set nospell
+    set background=light
+    colorscheme papercolor
+    let g:airline_theme = 'papercolor'
+    PresentingStart
+    set cc=0
+    set nospell
 endfunction
 
 fu! EndPresent()
-	set background=dark
-	colorscheme monokai
+    set background=dark
+    colorscheme monokai
+    let g:airline_theme = 'monokai_subtle'
 endfunction
 
 " end " ______________________________________________________________________
