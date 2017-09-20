@@ -84,15 +84,16 @@ set nowrap
 
 " filetype-specific _________________________________________________________
 
-"" python
+autocmd BufNewFile,BufRead * if expand('%:t') !~ '\.' | set ft=markdown | endif
+
+" python
 
 autocmd Filetype python setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab
 autocmd Filetype python set makeprg=pylint\ --reports=n\ --output-format=parseable\ %
 autocmd Filetype python set errorformat=%f:%l:\ %m
 autocmd Filetype python autocmd QuickFixCmdPost [^l]* nested cwindow
 
-"" other
-
+" other
 autocmd Filetype markdown setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab spell
 autocmd Filetype markdown set makeprg=grip\ %\ --export\ %:r.html\ &&\ open\ %:r.html
 autocmd Filetype make setlocal ts=4 sts=0 sw=4 noexpandtab
