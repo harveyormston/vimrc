@@ -67,11 +67,10 @@ let g:vim_markdown_folding_disabled = 1
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-let g:ale_set_loclist = 0
-let g:ale_set_quickfix = 1
 let g:ale_python_pylint_use_global = 0
 let g:ale_python_flake8_use_global = 0
 let g:ale_python_mypy_use_global = 0
+let g:ale_set_loclist = 1
 let g:presenting_top_margin = 2
 
 " whitespace _________________________________________________________________
@@ -84,18 +83,20 @@ set nowrap
 
 " filetype-specific _________________________________________________________
 
-autocmd BufNewFile,BufRead * if expand('%:t') !~ '\.' | set ft=markdown | endif
+autocmd BufNewFile,BufRead * if expand('%:t') !~ '\.' | set ft=unknown | endif
 
 " python
 
 autocmd Filetype python setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab
-autocmd Filetype python set makeprg=pylint\ --reports=n\ --output-format=parseable\ %
-autocmd Filetype python set errorformat=%f:%l:\ %m
+autocmd Filetype python setlocal makeprg=pylint\ --reports=n\ --output-format=parseable\ %
+autocmd Filetype python setlocal errorformat=%f:%l:\ %m
 autocmd Filetype python autocmd QuickFixCmdPost [^l]* nested cwindow
 
 " other
-autocmd Filetype markdown setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab spell
-autocmd Filetype markdown set makeprg=grip\ %\ --export\ %:r.html\ &&\ open\ %:r.html
+autocmd Filetype unknown setlocal ts=4 sts=4 sw=4 tw=79 cc=79 expandtab
+autocmd Filetype markdown setlocal ts=2 sts=2 sw=2 tw=0
+autocmd Filetype markdown setlocal expandtab spell wrap linebreak breakindent
+autocmd Filetype markdown setlocal makeprg=grip\ %\ 80\ --user-content\ -b\ &&\
 autocmd Filetype make setlocal ts=4 sts=0 sw=4 noexpandtab
 autocmd Filetype tex setlocal ts=2 sts=2 sw=2 tw=79 cc=79 expandtab spell
 autocmd Filetype plaintex setlocal ts=2 sts=2 sw=2 tw=79 cc=79 expandtab spell
@@ -140,6 +141,8 @@ colorscheme monokai
 " keymap _____________________________________________________________________
 
 let mapleader=","
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
 inoremap jk <esc>
 inoremap <esc> <nop>
 
